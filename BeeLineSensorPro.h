@@ -20,7 +20,7 @@
 #define BeeLineSensorPro_h 
 #include "Arduino.h" 
 
-#define AVG_VALUES 4
+#define AVG_VALUES 8
 #define LINE_BLACK 0
 #define LINE_WHITE 1
 
@@ -30,22 +30,22 @@ class BeeLineSensorPro{
 	int SER_Pin ;   //pin 14 on the 75HC595
 	int RCLK_Pin ;  //pin 12 on the 75HC595
 	int SRCLK_Pin ; //pin 11 on the 75HC595
-	boolean registers[8];
+	boolean registers[16];
 
 	int SEN_PIN;
 	int LED_PIN;
-	int s_val_avg[8][AVG_VALUES];
+	int s_val_avg[16][AVG_VALUES];
 	int s_val_avg_index;
 	boolean calibrate_init;
-	int rangemap[8]={255*8,255*4,255*2,255*1,255*1,255*2,255*4,255*8};
+	int rangemap[16]={255*128,255*64,255*32,255*16,255*8,255*4,255*2,255*1,255*1,255*2,255*4,255*8,255*16,255*32,255*64,255*128};
 	
 	unsigned char *pinmap;
 	
 	public: 
-	int values[8];
-	int values_map[8];
-	int values_min[8];
-	int values_max[8];
+	int values[16];
+	int values_map[16];
+	int values_min[16];
+	int values_max[16];
 	int location;
 	boolean color;
 	BeeLineSensorPro(int SRCLK,int RCLK,int SER,int SEN,boolean color);//int SER,int RCLK,int SRCLK,int SEN,
