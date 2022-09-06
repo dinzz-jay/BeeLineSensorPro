@@ -36,8 +36,8 @@ BeeLineSensorPro::BeeLineSensorPro(int SRCLK,int RCLK,int SER,int SEN,boolean c)
 BeeLineSensorPro::BeeLineSensorPro(unsigned char *pins,boolean c){
 	sensor_type=0;
 	color=c;
-	pinmap=(unsigned char*)malloc(sizeof(unsigned char)*8);
-	for(int i=0;i<8;i++){
+	pinmap=(unsigned char*)malloc(sizeof(unsigned char)*16);
+	for(int i=0;i<16;i++){
 		pinmap[i]=pins[i];
 		pinMode(pinmap[i], INPUT_PULLUP);
 	}
@@ -51,7 +51,7 @@ void BeeLineSensorPro::calibrate(){
 		Serial.println("Calibrate Staring..");
 		readSensor();
 	}
-	for(int c=0;c<8;c++){
+	for(int c=0;c<16;c++){
 		readSensor();
 		if(values[c]<values_min[c] || values_min[c]==0){
 			values_min[c]=values[c];
@@ -64,7 +64,7 @@ void BeeLineSensorPro::calibrate(){
 
 int BeeLineSensorPro::readSensor(){//int s_val_avg[8][AVG_VALUES];
 	location=0;
-	for(int i=0;i<8;i++){
+	for(int i=0;i<16;i++){
 		if(sensor_type==1){
 			setRegisterPin(i,HIGH);
 			writeRegisters();
@@ -117,14 +117,14 @@ int BeeLineSensorPro::readSensor(){//int s_val_avg[8][AVG_VALUES];
 }
 
 void BeeLineSensorPro::clearRegisters() {
-	for (int i = 8-1; i >=  0; i--) {
+	for (int i = 16-1; i >=  0; i--) {
 		registers[i] = LOW;
 	}
 }
 
 void BeeLineSensorPro::writeRegisters() {
 	digitalWrite(RCLK_Pin, LOW);
-	for (int i = 8-1; i >=  0; i--) {
+	for (int i = 16-1; i >=  0; i--) {
 		digitalWrite(SRCLK_Pin, LOW);
 		int val = registers[i];
 		digitalWrite(SER_Pin, val);
